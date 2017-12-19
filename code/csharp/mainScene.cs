@@ -37,7 +37,10 @@ public class mainScene : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		//testText ();
+		bool isShowingInput = (this.inputCanvas.alpha < 1f);
+		if (isShowingInput && Event.current.Equals (Event.KeyboardEvent ("return"))) {
+			getInput ();
+		}
 	}
 
 	void hideShowInput(bool isShow){
@@ -54,14 +57,14 @@ public class mainScene : MonoBehaviour {
 		i++;
 		int period = i % 100;
 		if (period <= 50) {
-			mainText.text = "hello";
+			setMainText("hello");
 		} else {
-			mainText.text = "world";
+			setMainText("world");
 		}
 	}
 
 	void runGame(){
-		mainText.text = "hello world! Please Enter your Name";
+		setMainText("hello world! Please Enter your Name");
 		hideShowInput (true);
 		UnityEngine.Events.UnityAction action = getInput;
 		confirmBtn.onClick.AddListener(action);
@@ -73,12 +76,13 @@ public class mainScene : MonoBehaviour {
 	void getInput(){
 		string username = mainInput.text;
 		string input = "Your character name is " + username;
-		setText (input);
+		setMainText (input);
+		hideShowInput (false);
 		mainCharObject.SetActive (true);
 		enemyCharObject.SetActive (true);
 	}
 
-	void setText(string text){
+	void setMainText(string text){
 		mainText.text = text;
 	}
 }
