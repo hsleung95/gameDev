@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class mainScene : MonoBehaviour {
 	UnityEngine.UI.Text mainText;
-	GameObject inputPanel;
 	UnityEngine.UI.Text mainInput;
 	UnityEngine.UI.Button confirmBtn;
 	CanvasGroup inputCanvas;
@@ -15,30 +14,31 @@ public class mainScene : MonoBehaviour {
 	int i;
 	// Use this for initialization
 	void Start () {
-		GameObject mainTextObject = GameObject.Find ("MainText");
-		mainText = mainTextObject.GetComponent<UnityEngine.UI.Text> ();
-
-		GameObject mainInputObject = GameObject.Find ("MainInputText");
-		mainInput = mainInputObject.GetComponent<UnityEngine.UI.Text> ();
-
-		inputPanel = GameObject.Find ("inputPanel");
-
-		GameObject btnConfirm = GameObject.Find ("InputConfirm");
-		confirmBtn = btnConfirm.GetComponent<UnityEngine.UI.Button> ();
-
-		inputCanvas = inputPanel.GetComponent<CanvasGroup> ();
+		mainText = findObject<UnityEngine.UI.Text> ("MainText");
+		mainInput = findObject<UnityEngine.UI.Text> ("MainInput");
+		confirmBtn = findObject<UnityEngine.UI.Button> ("InputConfirm");
+		inputCanvas = findObject<CanvasGroup> ("inputPanel");
 		mainCharObject = GameObject.Find ("mainCharObject");
 		enemyCharObject = GameObject.Find ("enemyCharObject");
+
 		mainCharObject.SetActive (false);
 		enemyCharObject.SetActive (false);
+
 		hideShowInput (false);
+
 		runGame ();
+	}
+
+	T findObject<T>(string objectName){
+		GameObject target = GameObject.Find (objectName);
+		return target.GetComponent<T> ();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		bool isShowingInput = (this.inputCanvas.alpha < 1f);
-		if (isShowingInput && Event.current.Equals (Event.KeyboardEvent ("return"))) {
+		CanvasGroup cn = this.inputCanvas;
+		bool isShowingInput = (cn.alpha < 1f);
+		if (isShowingInput && Event.current != null && Event.current.Equals (Event.KeyboardEvent ("return"))) {
 			getInput ();
 		}
 	}
@@ -75,8 +75,9 @@ public class mainScene : MonoBehaviour {
 
 	void getInput(){
 		string username = mainInput.text;
-		string input = "Your character name is " + username;
+		string input = "Wellcome, " + username;
 		setMainText (input);
+
 		hideShowInput (false);
 		mainCharObject.SetActive (true);
 		enemyCharObject.SetActive (true);
