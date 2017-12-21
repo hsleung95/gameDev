@@ -8,10 +8,13 @@ public class enemyChar : gameChar {
 	protected equipment eq;
 	protected skill[] skillArr;
 
+	void start(){
+		randomContainedEq (1);
+	}
+
 	enemyChar(){
 		expContain = maxHP * 0.5f + maxMP * 0.1f + attack * 4 + defense * 4;
 		eq = new equipment();
-		eq.randomEquipment(1, this);
 	}
 
 	public float getExpContain(){ return expContain; }
@@ -40,6 +43,10 @@ public class enemyChar : gameChar {
 		eq.randomEquipment(lv, this);
 		setName(enemyName);
 		setExpContain();
+	}
+
+	public void randomContainedEq(int lv){
+		eq.randomEquipment (lv, this);
 	}
 
 }

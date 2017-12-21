@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class gameChar {
+public class gameChar : MonoBehaviour {
 
 	public static string[] attrStr = {"hp","mp","attack","defense","intelligence"};
 	public static int wearingNum = 8;

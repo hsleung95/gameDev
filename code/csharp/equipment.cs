@@ -6,9 +6,27 @@ public class Pair<T1, T2>{
 	public T1 first;
 	public T2 second;
 
+	public Pair(){
+		first = default(T1);
+		second = default(T2);
+	}
+
 	public Pair(T1 tfirst, T2 tsecond){
 		first = tfirst;
 		second = tsecond;
+	}
+
+	public void setFirst(T1 val){
+		first = val;
+	}
+
+	public void setSecond(T2 val){
+		second = val;
+	}
+
+	public void setPair(T1 firstVal, T2 secondVal){
+		first = firstVal;
+		second = secondVal;
 	}
 }
 
@@ -35,9 +53,12 @@ public class equipment
 		description = "";
 		lv = 1;
 		rank = 1;
+		attributePair = new Pair<attribute, float>[4];
 		for(int i=0;i<4;i++){
 			//attributePair[i] =  new Pair<attribute, float>((attribute)(Random.Range(0,4)), (0));
-			attributePair[i] =  new Pair<attribute, float>((attribute)0, 0);
+			attribute attr = (attribute)0;
+			attributePair[i] =  new Pair<attribute, float>();
+			attributePair [i].setPair (attr, 0);
 		}
 	}
 
@@ -48,7 +69,7 @@ public class equipment
 		lv = 1;
 		rank = 1;
 		for(int i=0;i<4;i++){
-			attributePair[i] =  new Pair<attribute, float>((attribute)(Random.Range(0,4)), (0));
+			attributePair[i] =  new Pair<attribute, float>((attribute)0, 0);
 		}
 	}
 
