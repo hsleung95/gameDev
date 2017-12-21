@@ -37,8 +37,8 @@ public class mainScene : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		bool isShowingInput = (this.inputCanvas.alpha < 1f);
-		if (isShowingInput && Event.current.Equals (Event.KeyboardEvent ("return"))) {
+		bool isShowingInput = this.inputCanvas.blocksRaycasts;
+		if (isShowingInput && Input.GetKeyDown("return")) {
 			getInput ();
 		}
 	}
