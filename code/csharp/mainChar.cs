@@ -122,7 +122,7 @@ public class mainChar : gameChar
 
 	bool checkMagicKey(char userInput){
 		foreach(skill skillNode in skillList){
-			if(userInput == skillNode.getKey()) return true;		//check if userInput match any skill key in user skill list
+			if(userInput == skillNode.getAttr<char>("key")) return true;		//check if userInput match any skill key in user skill list
 		}
 		return false;
 	}

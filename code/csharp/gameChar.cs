@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class gameChar : MonoBehaviour {
+public class gameChar : ComponentSearchableGameObject {
 
 	public static string[] attrStr = {"hp","mp","attack","defense","intelligence"};
 	public static int wearingNum = 8;
@@ -10,6 +10,7 @@ public class gameChar : MonoBehaviour {
 	public static int attrNum = 5;
 	public static int randCount;
 	public bool defensed;
+	public string charName;
 
 	protected int lv;
 	protected float maxHP, currentHP;
@@ -17,13 +18,20 @@ public class gameChar : MonoBehaviour {
 	protected float attack, attVal, attMod;	int decreasedAttRound; bool decreasedAtt;
 	protected float defense, defVal, defMod; int defenseRound, decreasedDefRound;	bool decreasedDef;	//	value for defense action
 	protected float intelligence, intVal, intMod; int decreasedIntRound;	bool decreasedInt;
-	string charName;
+
+	public GameObject charNameCon, currentHPCon, currentMPCon, attValCon, defValCon, intValCon;
 
 	public gameChar(){
+		charName = "";
 		currentHP=maxHP=currentMP=maxMP=attack=attVal=defense=defVal=intelligence=intVal=attMod=defMod=intMod=0;
 		lv = 1;
 		decreasedAttRound=decreasedDefRound=decreasedIntRound=defenseRound = -1;
 		decreasedAtt=decreasedDef=decreasedInt=false;
+		base.attrContainers = new string[6] {"charNameCon", "currentHPCon", "currentMPCon","attValCon", "defValCon", "intValCon"};
+		base.parentAttr = new Dictionary<string, string> ();
+		base.parentAttr ["attack"] = "attVal";
+		base.parentAttr ["defense"] = "defVal";
+		base.parentAttr ["intelligence"] = "intVal";
 	}
 
 	public gameChar(string name, float hpVal, float mpVal, float att, float def,  float inti){
@@ -38,62 +46,22 @@ public class gameChar : MonoBehaviour {
 		attMod=defMod=intMod=0;
 	}
 
-	public float getMaxHP(){return maxHP;}
-	public float getMaxMP(){return maxMP;}
-	public float getCurrentHP(){return currentHP;}
-	public float getCurrentMP(){return currentMP;}
-	public float getAttack(){return attack;}
-	public float getDefense(){return defense;}
-	public float getIntelligence(){return intelligence;}
-	public float getAttVal(){return attVal;}
-	public float getDefVal(){return defVal;}
-	public float getIntVal(){return intVal;}
-	public float getAttMod(){return attMod;}
-	public float getDefMod(){return defMod;}
-	public float getIntMod(){return intMod;}
-	public string getName(){return charName;}
 	public virtual string getType(){return "gameChar";}
-	public int getLV(){ return lv; }
 
 	public int getRandCount(){		//counter for monster generated
 		return (randCount++);
 	}
-	public void setMaxHP(float val){maxHP = val;}
-	public void setCurrentHP(float val){currentHP = val;}
-	public void setMaxMP(float val){maxMP = val;}
-	public void setCurrentMP(float val){currentMP = val;}
-	public void setAttack(float val){
-		attack=val;
-		attVal = attack;
-	}
-	public void setDefense(float val){
-		defense=val;
-		defVal = defense;
-	}
-	public void setIntelligence(float val){
-		intelligence=val;
-		intVal = intelligence;
-	}
-	public void setAttVal(float val){attVal=val;}
-	public void setDefVal(float val){defVal=val;}
-	public void setIntVal(float val){intVal=val;}
-	public void setAttMod(float val){attMod=val;}
-	public void setDefMod(float val){defMod=val;}
-	public void setIntMod(float val){intMod=val;}
-	public void setName(string name){charName=name;}
+		
 	public void setChar(string name, float charHP, float charMP, float charAtt, float charDef,float charInt, int charLv){
-		charName = name;
-		maxHP=charHP;
-		maxMP=charMP;
-		attack = charAtt;
-		attVal = charAtt;
-		defense = charDef;
-		defVal = charDef;
-		intelligence = charInt;
-		intVal = charInt;
-		currentHP = maxHP;
-		currentMP = maxMP;
-		lv = charLv;
+		setAttr<string> ("charName", name);
+		setAttr<float> ("maxHP", charHP);
+		setAttr<float> ("maxMP", charMP);
+		setAttr<float> ("attack", charAtt);
+		setAttr<float> ("defense", charDef);
+		setAttr<float> ("intelligence", charInt);
+		setAttr<float> ("currentHP", charHP);
+		setAttr<float> ("currentMP", charMP);
+		setAttr<int> ("lv", charLv);
 		attMod = defMod = intMod = 0;
 	}
 
@@ -113,7 +81,7 @@ public class gameChar : MonoBehaviour {
 		/*
 		srand((int)time(NULL) * (int)time(NULL));
 		for(int i=0;i<10;i++) rand();
-		return (min * lv) + rand() %  (max * lv);
+		return (min * lv) + rand() %  (max * lv);f
 		*/
 		int minVal = min * lv;
 		int maxVal = max * lv;
@@ -121,26 +89,27 @@ public class gameChar : MonoBehaviour {
 	}
 
 	public void randChar(int charLv){	//set char stat with random value
-		if(charLv <= 0) charLv = 1;
-		lv = charLv;
-		maxHP= randValWithLV(10, 20, lv);   //val = min + rand  % max
-		maxMP= randValWithLV(5, 50, lv);
-		attack=randValWithLV(5, 10, lv);
-		attVal = attack;
-		attMod = 0;
-		defense =randValWithLV(5, 10, lv);
-		defVal = defense;
-		defMod = 0;
-		intelligence = randValWithLV(5, 10, lv);
-		intVal = intelligence;
-		intMod = 0;
-		currentHP = maxHP;
-		currentMP = maxMP;
+		if (charLv <= 0) {
+			charLv = 1;
+		}
+		setAttr<int> ("lv", charLv);
+		float maxHP = randValWithLV (10, 20, lv);
+		float maxMP = randValWithLV (5, 50, lv);
+		setAttr<float> ("maxHP", maxHP);
+		setAttr<float> ("currentHP", maxHP);
+		setAttr<float> ("maxMP", maxMP);
+		setAttr<float> ("currentMP", maxMP);
+		setAttr<float> ("attack", randValWithLV(5, 10, lv));
+		setAttr<float> ("attMod", 0);
+		setAttr<float> ("defense", randValWithLV(5, 10, lv));
+		setAttr<float> ("defMod", 0);
+		setAttr<float> ("intelligence", randValWithLV(5, 10, lv));
+		setAttr<float> ("intMod", 0);
 	}
 
 	public float attackChar(gameChar target){	//attack function
-		float ownAttack = getAttVal() + attMod;
-		float targetDefense = target.getDefVal() + target.getDefMod();
+		float ownAttack = getAttr<float>("attVal") + attMod;
+		float targetDefense = target.getAttr<float>("defVal") + target.getAttr<float>("defMod");
 		float damage = (ownAttack  - targetDefense) * 1.5f ;
 		if(damage<=0) damage = 1;
 		return damage;
@@ -148,13 +117,13 @@ public class gameChar : MonoBehaviour {
 
 	public bool defenseAction(int currentRound){
 		defenseRound = currentRound;
-		defVal = getDefense() * 2;
+		defVal = getAttr<float>("defense") * 2;
 		defensed = true;
 		return true;
 	}
 
 	public bool stopDefense(){
-		defVal = getDefense();
+		defVal = getAttr<float>("defense");
 		defensed = false;
 		return true;
 	}

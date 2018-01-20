@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657868, g: 0.49641263, b: 0.57481706, a: 1}
+  m_IndirectSpecularColor: {r: 0.4465785, g: 0.49641252, b: 0.574817, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -528,6 +528,7 @@ GameObject:
   - component: {fileID: 160779149}
   - component: {fileID: 160779151}
   - component: {fileID: 160779150}
+  - component: {fileID: 160779152}
   m_Layer: 5
   m_Name: MainPanel
   m_TagString: Untagged
@@ -592,6 +593,17 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 160779148}
+--- !u!114 &160779152
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 160779148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e2645c30dade431d8cae4962e168d00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &213430966
 GameObject:
   m_ObjectHideFlags: 0
@@ -908,6 +920,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   defensed: 0
+  charName: 
+  charNameCon: {fileID: 9259523}
+  currentHPCon: {fileID: 251510378}
+  currentMPCon: {fileID: 1910120273}
+  attValCon: {fileID: 1548820463}
+  defValCon: {fileID: 144456246}
+  intValCon: {fileID: 856764849}
 --- !u!1 &523163699
 GameObject:
   m_ObjectHideFlags: 0
@@ -2088,7 +2107,6 @@ GameObject:
   - component: {fileID: 1218199226}
   - component: {fileID: 1218199228}
   - component: {fileID: 1218199227}
-  - component: {fileID: 1218199229}
   m_Layer: 5
   m_Name: textPanel
   m_TagString: Untagged
@@ -2148,17 +2166,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1218199225}
---- !u!114 &1218199229
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1218199225}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8e2645c30dade431d8cae4962e168d00, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1227645804
 GameObject:
   m_ObjectHideFlags: 0
@@ -2907,7 +2914,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1534879084}
   - component: {fileID: 1534879083}
-  - component: {fileID: 1534879082}
   - component: {fileID: 1534879081}
   - component: {fileID: 1534879080}
   m_Layer: 0
@@ -2925,13 +2931,6 @@ AudioListener:
   m_GameObject: {fileID: 1534879079}
   m_Enabled: 1
 --- !u!124 &1534879081
-Behaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1534879079}
-  m_Enabled: 1
---- !u!92 &1534879082
 Behaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
@@ -2981,7 +2980,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1534879079}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -450}
+  m_LocalPosition: {x: 0, y: 0, z: -350}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2112814071}
@@ -3109,6 +3108,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   defensed: 0
+  charName: 
+  charNameCon: {fileID: 241280278}
+  currentHPCon: {fileID: 1044686291}
+  currentMPCon: {fileID: 937090103}
+  attValCon: {fileID: 587015582}
+  defValCon: {fileID: 607178483}
+  intValCon: {fileID: 1346480252}
 --- !u!1 &1604250952
 GameObject:
   m_ObjectHideFlags: 0
@@ -3882,8 +3888,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -15}
+  m_SizeDelta: {x: 0, y: -30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2106316737
 GameObject:
@@ -3916,8 +3922,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -15}
+  m_SizeDelta: {x: 0, y: -30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2112814067
 GameObject:

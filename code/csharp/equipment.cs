@@ -150,25 +150,25 @@ public class equipment
 			float effectingVal = attributePair[i].second;
 			switch ((int)(attributePair[i].first)) {
 			case 0:{
-					equiped.setMaxHP(equiped.getMaxHP()+effectingVal);
-					equiped.setCurrentHP(equiped.getCurrentHP()+effectingVal);
+					equiped.setAttr<float>("maxHP", equiped.getAttr<float>("maxHP")+effectingVal);
+					equiped.setAttr<float>("currentHP", equiped.getAttr<float>("currentHP")+effectingVal);
 					break;
 				}
 			case 1:{
-					equiped.setMaxMP(equiped.getMaxMP()+effectingVal);
-					equiped.setCurrentMP(equiped.getCurrentMP()+effectingVal);
+					equiped.setAttr<float>("maxMP", equiped.getAttr<float>("maxMP")+effectingVal);
+					equiped.setAttr<float>("currentMP", equiped.getAttr<float>("currentMP")+effectingVal);
 					break;
 				}
 			case 2:{
-					equiped.setAttack(equiped.getAttack()+effectingVal);
+					equiped.setAttr<float>("attack", equiped.getAttr<float>("attack")+effectingVal);
 					break;
 				}
 			case 3:{
-					equiped.setDefense(equiped.getDefense()+effectingVal);
+					equiped.setAttr<float>("defense", equiped.getAttr<float>("defense")+effectingVal);
 					break;
 				}
 			case 4:{
-					equiped.setIntelligence(equiped.getIntelligence()+effectingVal);
+					equiped.setAttr<float>("intelligence", equiped.getAttr<float>("intelligence")+effectingVal);
 					break;
 				}
 
@@ -186,25 +186,25 @@ public class equipment
 			float effectingVal = attributePair[i].second;
 			switch ((int)(attributePair[i].first)) {
 			case 0:{
-					equiped.setMaxHP(equiped.getMaxHP() - effectingVal);
-					equiped.setCurrentHP(equiped.getCurrentHP() - effectingVal);
+					equiped.setAttr<float>("maxHP", equiped.getAttr<float>("maxHP") - effectingVal);
+					equiped.setAttr<float>("currentHP", equiped.getAttr<float>("currentHP") - effectingVal);
 					break;
 				}
 			case 1:{
-					equiped.setMaxMP(equiped.getMaxMP() - effectingVal);
-					equiped.setCurrentMP(equiped.getCurrentMP() - effectingVal);
+					equiped.setAttr<float>("maxMP", equiped.getAttr<float>("maxMP") - effectingVal);
+					equiped.setAttr<float>("currentMP", equiped.getAttr<float>("currentMP") - effectingVal);
 					break;
 				}
 			case 2:{
-					equiped.setAttack(equiped.getAttack() - effectingVal);
+					equiped.setAttr<float>("attack", equiped.getAttr<float>("attack") - effectingVal);
 					break;
 				}
 			case 3:{
-					equiped.setDefense(equiped.getDefense() - effectingVal);
+					equiped.setAttr<float>("defense", equiped.getAttr<float>("defense") - effectingVal);
 					break;
 				}
 			case 4:{
-					equiped.setIntelligence(equiped.getIntelligence() - effectingVal);
+					equiped.setAttr<float>("intelligence", equiped.getAttr<float>("intelligence") - effectingVal);
 					break;
 				}
 

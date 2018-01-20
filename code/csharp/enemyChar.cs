@@ -12,7 +12,7 @@ public class enemyChar : gameChar {
 		randomContainedEq (1);
 	}
 
-	enemyChar(){
+	public enemyChar(){
 		expContain = maxHP * 0.5f + maxMP * 0.1f + attack * 4 + defense * 4;
 		eq = new equipment();
 	}
@@ -41,7 +41,7 @@ public class enemyChar : gameChar {
 		base.randChar(lv);
 		expContain = maxHP * 0.5f + maxMP * 0.1f + attack * 4 + defense * 4;
 		eq.randomEquipment(lv, this);
-		setName(enemyName);
+		setAttr<string>("charName", enemyName);
 		setExpContain();
 	}
 

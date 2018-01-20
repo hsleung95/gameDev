@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class skill : MonoBehaviour
+public class skill : ComponentSearchableGameObject
 {
 	public static int skillTypeNum = 3;
 	//public static string skillTypeArr;
@@ -23,11 +23,7 @@ public class skill : MonoBehaviour
 		key = skillKey;
 		description = skillDes;
 	}
-
-	public virtual char getKey(){return key;}
-	public string getSkillName(){return skillName;}
-	public string getDescription(){return description;}
-	public float getCost(){return cost;}
+		
 	public virtual string getSkillClass(){return "skill";}
 
 	public virtual float cast(gameChar source, gameChar target, int currentRound){
@@ -36,11 +32,11 @@ public class skill : MonoBehaviour
 
 	public void setTargetParam(gameChar target, int field, int effectVal){
 		switch(field){
-		case 0: target.setCurrentHP(target.getCurrentHP() + effectVal); break;
-		case 1: target.setCurrentMP(target.getCurrentMP() + effectVal); break;
-		case 2: target.setAttMod(target.getAttMod() + effectVal); break;
-		case 3: target.setDefMod(target.getDefMod() + effectVal); break;
-		case 4: target.setIntMod(target.getIntMod() + effectVal); break;
+		case 0: target.setAttr<float>("currentHP", target.getAttr<float>("currentHP") + effectVal); break;
+		case 1: target.setAttr<float>("currentMP", target.getAttr<float>("currentMP") + effectVal); break;
+		case 2: target.setAttr<float>("attMod", target.getAttr<float>("attMod") + effectVal); break;
+		case 3: target.setAttr<float>("defMod", target.getAttr<float>("defMod") + effectVal); break;
+		case 4: target.setAttr<float>("intMod", target.getAttr<float>("intMod") + effectVal); break;
 		}
 	}
 
@@ -53,17 +49,17 @@ public class magic : skill{
 	public magic(){}
 	public magic(string name, float skillCost, float skillVal, char skillKey, string skillDes) : base(name,skillCost,skillVal,skillKey,skillDes){}
 	public override float cast(gameChar source, gameChar target, int currentRound){
-		float sourceMP = source.getCurrentMP();
+		float sourceMP = source.getAttr<float>("currentMP");
 		if(sourceMP < cost) return -1;
-		source.setCurrentMP(sourceMP - cost);
+		source.setAttr<float>("currentMP", sourceMP - cost);
 
 		float effectingVal = 0;
-		float magicDef = target.getIntVal() + target.getIntMod();
-		effectingVal = effectVal * (source.getIntVal() + source.getIntMod())* 1 + magicDef;
+		float magicDef = target.getAttr<float>("intVal") + target.getAttr<float>("intMod");
+		effectingVal = effectVal * (source.getAttr<float>("intVal") + source.getAttr<float>("intMod"))* 1 + magicDef;
 		//value = -(spellAmount * intelligence * amplifier - targetIntelligence)
 		if(effectingVal <= 0 ) effectingVal = 1;	//if no damage, set damage to 1
 		effectingVal = -(effectingVal);
-		if(Mathf.Abs(effectingVal) >= target.getCurrentHP()) effectingVal = -(target.getCurrentHP());
+		if(Mathf.Abs(effectingVal) >= target.getAttr<float>("currentHP")) effectingVal = -(target.getAttr<float>("currentHP"));
 		//if damage > current health, set difference = currentHP (currentHP - currentHP = 0)
 		base.setTargetParam(target, 0, (int)(effectingVal));
 		return -(effectingVal);		//effectingVal must be <0 and negate it
@@ -82,11 +78,11 @@ public class physical_skill : skill{
 		int chance = Random.Range(0,100);
 		if(chance < 40) return 0;
 
-		effectingVal = effectVal * (source.getAttVal() + source.getAttMod()) - (target.getDefVal() + target.getDefMod() );
+		effectingVal = effectVal * (source.getAttr<float>("attVal") + source.getAttr<float>("attMod")) - (target.getAttr<float>("defVal") + target.getAttr<float>("defMod") );
 		//damage = val * att - def
 		if(effectingVal <= 0) effectingVal = 1;	//if no damage, set damage to 1
 		effectingVal = -(effectingVal);
-		if(Mathf.Abs(effectingVal) >= target.getCurrentHP()) effectingVal = -(target.getCurrentHP());
+		if(Mathf.Abs(effectingVal) >= target.getAttr<float>("currentHP")) effectingVal = -(target.getAttr<float>("currentHP"));
 		//if damage > current health, set difference = currentHP (currentHP - currentHP = 0)
 		setTargetParam(target, 0, (int)(effectingVal));
 		return -(effectingVal);		//effectingVal must be <0 and negate it
@@ -101,14 +97,14 @@ public class restore_health : skill{
 	public restore_health(){}
 	public restore_health(string name, float skillCost, float skillVal, char skillKey, string skillDes) : base(name,skillCost,skillVal,skillKey,skillDes){}
 	public override float cast(gameChar source, gameChar target, int currentRound){
-		float sourceMP = source.getCurrentMP();
+		float sourceMP = source.getAttr<float>("currentMP");
 		if(sourceMP < cost) return -1;
-		source.setCurrentMP(sourceMP - cost);
+		source.setAttr<float>("currentMP", sourceMP - cost);
 
 		float effectingVal = 0;
-		effectingVal = effectVal * (source.getIntVal() + source.getIntMod()) * 1;
+		effectingVal = effectVal * (source.getAttr<float>("intVal") + source.getAttr<float>("intMod")) * 1;
 		//value = spellAmount * intelligence * amplifier
-		if((target.getCurrentHP() + effectingVal) >= target.getMaxHP()) effectingVal = target.getMaxHP() - target.getCurrentHP();
+		if((target.getAttr<float>("currentHP") + effectingVal) >= target.getAttr<float>("maxHP")) effectingVal = target.getAttr<float>("maxHP") - target.getAttr<float>("currentHP");
 		//if amount + current health > max health, set difference = max hp - current hp
 		setTargetParam(target, 0, (int)(effectingVal));
 		return effectingVal;		//effectingVal must be <0 and negate it
@@ -127,12 +123,12 @@ public class attribute_modifier : skill{
 		if(skillField >= 2 && skillField <= 4) field = skillField;
 	}
 	public override float cast(gameChar source, gameChar target, int currentRound){
-		float sourceMP = source.getCurrentMP();
+		float sourceMP = source.getAttr<float>("currentMP");
 		if(sourceMP < cost) return -1;
-		source.setCurrentMP(sourceMP - cost);
+		source.setAttr<float>("currentMP", sourceMP - cost);
 
 		float effectingVal = 0;
-		effectingVal = effectVal * source.getIntVal() * 0.1f;
+		effectingVal = effectVal * source.getAttr<float>("intVal") * 0.1f;
 		target.decreaseAttr(field, effectingVal, currentRound);
 		return effectingVal;
 
