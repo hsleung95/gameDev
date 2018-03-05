@@ -138,3 +138,16 @@ public class attribute_modifier : skill{
 	}
 	public override string getSkillClass(){return "attribute_modifier";}
 }
+
+public class skillNode : ComponentSearchableGameObject{
+	skill containSkill;
+	int unlockLv;
+
+	public skillNode(){}
+
+	public skillNode(int lv, skill includedSkill){
+		containSkill = includedSkill;
+		unlockLv = lv;
+	}
+		
+}
